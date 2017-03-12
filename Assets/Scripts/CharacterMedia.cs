@@ -3,24 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterMedia : MonoBehaviour {
-    
-    private Rigidbody2D rb2D;
-    private Animator anim;
 
-    private bool landed;
-    private MoveStatus moveStatus;
+    private Animator anim;
+    private AudioSource audioSource;
+    //private DelegateManager dManager;
 
     void Awake() {
-        rb2D = GetComponent<Rigidbody2D>();
+        //Debug.Log("CharacterMedia-->Awake ");
+        //dManager = GetComponent<DelegateManager>();
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void OnEnable() {
-       
+        //Debug.Log("CharacterMedia-->OnEnable ");
+        //dManager.addDelegate(DelegateEnum.Animation, updateAnimation);
+        //dManager.addDelegate(DelegateEnum.Audio, updateAudio);
+        //facingRight = true;
     }
 
     void Disable() {
-
+        //dManager.decreaseDelegate(DelegateEnum.Animation, updateAnimation);
+        //dManager.decreaseDelegate(DelegateEnum.Audio, updateAudio);
     }
 
     // Use this for initialization
@@ -30,23 +34,95 @@ public class CharacterMedia : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        playAnimation();
+
     }
 
-    public void msgSetJumpStatus(JumpStatus msgData) {
-        //Debug.Log("CharacterMedia-->msgSetJumpStatus " + System.Enum.GetName(typeof(JumpStatus), msgData));
-        landed = (JumpStatus.Landed == msgData);
+    public void playAnimation(AnimationEnum inputEnum,object inputData) {
+        float velocity;
+        bool boolean;
+        if (inputEnum == AnimationEnum.VelocityX ||
+                    inputEnum == AnimationEnum.VelocityY) {
+
+            velocity = (float)inputData;
+            anim.SetFloat(inputEnum.ToString(), velocity);
+            //Debug.Log("CharacterMedia-->updateAnimation " + inputEnum.ToString() + velocity);
+        }
+        else if (inputEnum == AnimationEnum.Grounded) {
+            boolean = (bool)inputData;
+            anim.SetBool(inputEnum.ToString(), boolean);
+            //Debug.Log("CharacterMedia-->updateAnimation " + inputEnum.ToString() + boolean);
+        }
+        else if (inputEnum == AnimationEnum.FacingRight) {
+            turnAround();
+            //Debug.Log("CharacterMedia-->updateMove " + AnimationEnum.FacingRight);
+        }
     }
 
-    void playAnimation() {
-        anim.SetBool("Landed", landed);
-        anim.SetFloat("SpeedX", Mathf.Abs(rb2D.velocity.x));
-        anim.SetFloat("SpeedY", rb2D.velocity.y);
+    void turnAround() {
+        transform.Rotate(Vector3.up * 180);
     }
 
-    void msgFlipHorizontal() {
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
+    public void playAudio(AudioEnum inputEnum, object inputData = null) {
+        AudioClip currentAc;
+        if (inputEnum == AudioEnum.Jump) {
+            currentAc = SceneMode.instance.getAudioClipByEnum(inputEnum);
+            if (!audioSource.isPlaying) {
+                audioSource.clip = currentAc;
+                audioSource.Play();
+            }
+            //Debug.Log("CharacterMedia-->updateAudio " + inputEnum.ToString());
+        }
     }
+
+    //void updateAnimation(object[] rMsgData) {
+    //    AnimationEnum inputEnum;
+    //    float velocity;
+    //    bool boolean;
+
+    //    if (rMsgData.Length >= 2) {
+    //        inputEnum = (AnimationEnum)rMsgData[0];
+    //    }
+    //    else {
+    //        return;
+    //    }
+
+    //    if (inputEnum == AnimationEnum.VelocityX ||
+    //                inputEnum == AnimationEnum.VelocityY) {
+
+    //        velocity = (float)rMsgData[1];
+    //        anim.SetFloat(inputEnum.ToString(), velocity);
+    //        //Debug.Log("CharacterMedia-->updateAnimation " + inputEnum.ToString() + velocity);
+    //    }
+    //    else if (inputEnum == AnimationEnum.Grounded) {
+
+    //        boolean = (bool)rMsgData[1];
+    //        anim.SetBool(inputEnum.ToString(), boolean);
+    //        //Debug.Log("CharacterMedia-->updateAnimation " + inputEnum.ToString() + boolean);
+    //    }
+    //    else if (inputEnum == AnimationEnum.FacingRight) {
+    //        turnAround();
+    //        //Debug.Log("CharacterMedia-->updateMove " + AnimationEnum.FacingRight);
+    //    }
+    //}
+
+    //void updateAudio(object[] rMsgData) {
+    //    AudioEnum inputEnum;
+    //    AudioClip currentAc;
+
+    //    if (rMsgData.Length >= 2) {
+    //        inputEnum = (AudioEnum)rMsgData[0];
+    //    }
+    //    else {
+    //        return;
+    //    }
+
+    //    if (inputEnum == AudioEnum.Jump) {
+    //        currentAc = SceneMode.instance.getAudioClipByEnum(inputEnum);
+    //        if (!audioSource.isPlaying) {
+    //            audioSource.clip = currentAc;
+    //            audioSource.Play();
+    //        }
+    //        //Debug.Log("CharacterMedia-->updateAudio " + inputEnum.ToString());
+    //    }
+    //}
 }

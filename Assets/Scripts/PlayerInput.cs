@@ -1,87 +1,153 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInput : MonoBehaviour {
-    [HideInInspector]
-    public InputEnum inputEnum;    
+    //public MyEventHandler moveHanlder;
+    //public MyEventHandler jumpHanlder;
+    //public MyEventHandler actionHanlder;
+    //private DelegateManager dManager;
+
+    private CharacterMove cMove;
+    private CharacterJump cJump;
 
     void Awake() {
-
+        //dManager = GetComponent<DelegateManager>();
+        cMove = GetComponent<CharacterMove>();
+        cJump = GetComponent<CharacterJump>();
     }
 
     void OnEnable() {
+        //dManager.registerDelegate(DelegateEnum.Input,null);
     }
 
     void Disable() {
+        //dManager.removeDelegate(DelegateEnum.Input);
     }
 
     // Use this for initialization
-    void Start() {
-        
+    void Start() {        
     }
 
     // Update is called once per frame
     void Update() {
         horizontalInput();
+        verticalInput();
         jumpInput();
         actionInput();
     }
 
-    void horizontalInput() {
-        float hInput = Input.GetAxis("Horizontal");
-        if (hInput == 0) {
-            return;
-        }
-        else if (hInput > 0) {
-            inputEnum = Input.GetButton("Fire1") ? InputEnum.RunRight : InputEnum.WalkRight;
-        }
-        else if (hInput < 0) {
-            inputEnum = Input.GetButton("Fire1") ? InputEnum.RunLeft : InputEnum.WalkLeft;
-        }
+    void FixedUpdate() {
+        //Debug.Log("PlayerInput-->FixedUpdate");
+    }
 
-        string msg = System.Enum.GetName(typeof(MassageEnum), MassageEnum.msgSetMoveInput);
-        //Debug.Log("PlayerInput-->horizontalInput " + msg);
-        gameObject.SendMessage(msg, inputEnum);
+    void horizontalInput() {
+        InputEnum inputEnum;
+
+        float hInput = Input.GetAxis("Horizontal"); 
+
+        //inputEnum = Input.GetButton("Fire1") ? InputEnum.Run : InputEnum.Walk;
+        inputEnum = InputEnum.HorizontalMove;
+
+        cMove.inputMove(inputEnum, hInput);
+    }
+
+    void verticalInput() {
+        InputEnum inputEnum;
+        float vInput = Input.GetAxis("Vertical");
+
+        inputEnum = InputEnum.VerticalMove;
+
+        cMove.inputMove(inputEnum, vInput);
     }
 
     void jumpInput() {
-        if (Input.GetButtonDown("Jump") && !Input.GetButton("Fire1")) {
-            inputEnum = InputEnum.Jump;
+        InputEnum inputEnum = InputEnum.Jump;
+
+        if (Input.GetButtonDown("Jump")) {
+            cJump.inputJump(inputEnum,true);
         }
-        else if (Input.GetButtonDown("Jump") && Input.GetButton("Fire1")) {
-            inputEnum = InputEnum.RunJump;
-        }
-        else if (Input.GetButtonDown("Jump") && Input.GetAxis("Vertical") < 0 ) {
-            inputEnum = InputEnum.CrouchJump;
+        else if(Input.GetButtonUp("Jump")) {
+            cJump.inputJump(inputEnum,false);
         }
         else {
             return;
         }
-        
-        string msg = System.Enum.GetName(typeof(MassageEnum), MassageEnum.msgSetJumpInput);
-        //Debug.Log("PlayerInput-->jumpInput " + msg);
-        gameObject.SendMessage(msg, inputEnum);
     }
 
     void actionInput() {
-        float vInput = Input.GetAxis("Vertical");
-        if (vInput == 0) {
+        //InputEnum inputEnum;
+
+        if (!Input.GetButton("Fire1")) {
             return;
         }
-        if (vInput > 0) {            
-        }
-        else if (vInput < 0) {
-            inputEnum = InputEnum.Crouch;
-        }
-
-        string msg = System.Enum.GetName(typeof(MassageEnum), MassageEnum.msgSetActioinInput);
-        //Debug.Log("PlayerInput-->actionInput " + msg);
-        gameObject.SendMessage(msg, inputEnum);
+        //inputEnum = InputEnum.Action;
     }
 
+    //void horizontalInput() {
+    //    InputEnum inputEnum;
 
-    void FixedUpdate() {
-        //Debug.Log("PlayerInput-->FixedUpdate");
-    }
+    //    float hInput = Input.GetAxis("Horizontal");
+    //    //if (hInput == 0) {
+    //    //    return;
+    //    //}
+
+    //    //inputEnum = Input.GetButton("Fire1") ? InputEnum.Run : InputEnum.Walk;
+    //    inputEnum = InputEnum.HorizontalMove;
+    //    object[] sMsgData = new object[2];
+    //    sMsgData[0] = inputEnum;
+    //    sMsgData[1] = hInput;
+
+    //    dManager.delegateInvoke(DelegateEnum.Input, sMsgData);
+    //    //moveHanlder.Invoke(msgData);
+    //    //GameInstance.staticDelegate.delegateInvoke(DelegateEnum.Input, sMsgData);
+    //}
+
+    //void verticalInput() {
+    //    InputEnum inputEnum;
+    //    float vInput = Input.GetAxis("Vertical");
+    //    if (vInput == 0) {
+    //        return;
+    //    }
+    //    inputEnum = InputEnum.HorizontalMove;
+
+    //    object[] sMsgData = new object[2];
+    //    sMsgData[0] = inputEnum;
+    //    sMsgData[1] = vInput;
+
+    //    dManager.delegateInvoke(DelegateEnum.Input, sMsgData);
+    //}
+
+    //void jumpInput() {
+    //    InputEnum inputEnum;
+
+    //    if (Input.GetButtonDown("Jump")) {
+    //        inputEnum = InputEnum.Jump;
+    //    }
+    //    else {
+    //        return;
+    //    }
+
+    //    object[] sMsgData = new object[1];
+    //    sMsgData[0] = inputEnum;
+         
+    //    dManager.delegateInvoke(DelegateEnum.Input,sMsgData);
+    //}
+
+    //void actionInput() {
+    //    InputEnum inputEnum;
+
+    //    if (Input.GetButton("Fire1")) {
+    //        inputEnum = InputEnum.Action;
+    //    }
+    //    else {
+    //        return;
+    //    }
+
+    //    object[] sMsgData = new object[1];
+    //    sMsgData[0] = inputEnum;
+
+    //    dManager.delegateInvoke(DelegateEnum.Input, sMsgData);
+    //}    
 }

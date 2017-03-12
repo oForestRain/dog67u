@@ -4,27 +4,40 @@ using UnityEngine;
 
 public class CharacterJump : MonoBehaviour {
     public float normalJump = 6f;
-    public float doubleJump = 6f;    
-    public float runJump = 8f;
-    public float crouchJump = 10f;
     public bool doubleJumpEnable = true;
+    public float doubleJump = 6f;
 
-    private Rigidbody2D rb2D;
+    public bool useGravity = true;
+    public float gravity = 9.81f;
 
-    private InputEnum inputEnum;
-    private JumpStatus status;
+    private bool isDoubleJump;
+    [HideInInspector]
+    public JumpStatus jStatus;
+    //private DelegateManager dManager;
+    private CharacterController controller;
+    private CharacterMotion cMotion;
+    private CharacterMedia cMeidia;
+    private ParticleTransformManager cParticle;
+    
 
     void Awake() {
-        rb2D = GetComponent<Rigidbody2D>();
+        //dManager = GetComponent<DelegateManager>();
+        controller = GetComponent<CharacterController>();
+        cMotion = GetComponent<CharacterMotion>();
+        cMeidia = GetComponent<CharacterMedia>();
+        cParticle = GetComponent<ParticleTransformManager>();
     }
 
     void OnEnable() {
-        inputEnum = InputEnum.None;
-        status = JumpStatus.Landed;
+        //dManager.addDelegate(DelegateEnum.Input,calculateJump);
+        //dManager.addDelegate(DelegateEnum.Update, updateJumpStatus);
+        isDoubleJump = true;
+        jStatus = JumpStatus.Jump;
     }
 
     void Disable() {
-
+        //dManager.decreaseDelegate(DelegateEnum.Input, calculateJump);
+        //dManager.decreaseDelegate(DelegateEnum.Update, updateJumpStatus);
     }
 
     // Use this for initialization
@@ -33,66 +46,191 @@ public class CharacterJump : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-
+	void Update () {        
     }
 
     void FixedUpdate() {
         //Debug.Log("CharacterJump-->FixedUpdate"+ moveInput);
-        toJump();
+        calculateGravity();
+        updateJumpStatus();
     }
 
-    public void msgSetJumpInput(InputEnum msgData) {
-        //Debug.Log("CharacterJump-->msgSetJumpInput " + System.Enum.GetName(typeof(JumpStatus), status) + " " + doubleJumpEnable + " " + isDoubleJump);
-        inputEnum = msgData;
-    }
-
-    public void msgSetJumpStatus(JumpStatus msgData) {
-        //Debug.Log("CharacterJump-->msgSetJumpStatus " + System.Enum.GetName(typeof(JumpStatus), msgData));
-        if (status != msgData) {
-            status = msgData;
+    void calculateGravity() {
+        //Debug.Log("CharacterJump-->calculateGravity ");
+        if (!useGravity) {
+            return;
         }
+        cMotion.motion(-gravity * Time.deltaTime, MotionEnum.AddYAxis);
+        //Debug.Log("CharacterJump-->calculateGravity " + velocity);
     }
 
-    void toJump() {
-        if (inputEnum == InputEnum.None) {
+    public void inputJump(InputEnum inputEnum, object inputData) {
+        if (inputEnum != InputEnum.Jump) {
             return;
         }
 
-        if (inputEnum == InputEnum.Jump) {
-            checkJumpEnableAndJump(normalJump, normalJump);
-        }
-        else if (inputEnum == InputEnum.RunJump) {
-            checkJumpEnableAndJump(runJump, normalJump);
-        }
-        else if (inputEnum == InputEnum.CrouchJump) {
-            checkJumpEnableAndJump(crouchJump, normalJump);
-        }
-        else {
-            inputEnum = InputEnum.None;
+        if ((bool)inputData == false) {
             return;
         }
-        inputEnum = InputEnum.None;
+
+        float velocity = 0f;
+        checkJumpEnableAndJump(velocity, normalJump, doubleJump);
     }
 
-    void checkJumpEnableAndJump(float oneJump,float doubleJump) {
-        float velocity;
-        if (status == JumpStatus.Landed) {
+    void checkJumpEnableAndJump(float velocity, float oneJump, float doubleJump) {
+         if (jStatus == JumpStatus.Grounded) {
             velocity = oneJump;
-            status = JumpStatus.Jump;
-            //Debug.Log("CharacterJump-->checkJumpEnable oneJump" + velocity + System.Enum.GetName(typeof(JumpStatus), status));
+            jStatus = JumpStatus.Jump;
         }
-        else if (doubleJumpEnable && status != JumpStatus.DoubleJump) {
+        else if (doubleJumpEnable && isDoubleJump == false) {
             velocity = doubleJump;
-            status = JumpStatus.DoubleJump;
-            //Debug.Log("CharacterJump-->checkJumpEnable oneJump" + velocity + System.Enum.GetName(typeof(JumpStatus), status));
+            isDoubleJump = true;
         }
         else {
             return;
         }
 
-        //Debug.Log("CharacterJump-->checkJumpEnable " + oneJump +" "+ doubleJump);
-
-        rb2D.velocity = new Vector2(rb2D.velocity.x, velocity);
+        cMotion.motion(velocity, MotionEnum.YAxis);
+        cMeidia.playAudio(AudioEnum.Jump);
+        cParticle.playParticle(ParticleEnum.Jump);
     }
+
+    void updateJumpStatus() {
+        JumpStatus status = controller.isGrounded ? JumpStatus.Grounded : JumpStatus.Jump;
+
+        if (status == jStatus) {
+            return;
+        }
+
+        jStatus = status;
+        if (jStatus == JumpStatus.Grounded) {
+            isDoubleJump = false;
+
+            object[] sMsgData = new object[2];
+            sMsgData[0] = CameraEnum.GroundedYAxis;
+            sMsgData[1] = transform.position;
+            GameInstance.staticDelegate.delegateInvoke(DelegateEnum.Camera, sMsgData);
+        }
+
+        cMeidia.playAnimation(AnimationEnum.Grounded,controller.isGrounded);
+    }
+
+    //void calculateJump(object[] rMsgData) {
+    //    InputEnum inputEnum;
+    //    if (rMsgData.Length >= 1) {
+    //        inputEnum = (InputEnum)rMsgData[0];
+    //    }
+    //    else {
+    //        return;
+    //    }
+    //    if (inputEnum != InputEnum.Jump) {
+    //        return;
+    //    }
+
+    //    //Debug.Log("CharacterJump-->calculateJump" + inputEnum);
+    //    float velocity = jumpVelocity(inputEnum);
+    //    if (velocity == 0) {
+    //        return;
+    //    }
+
+    //    object[] sMsgData = new object[2];
+    //    sMsgData[0] = MotionEnum.YAxis;
+    //    sMsgData[1] = velocity;
+    //    dManager.delegateInvoke(DelegateEnum.Motion, sMsgData);
+    //}
+
+    //float jumpVelocity(InputEnum inputEnum) {
+    //    //Debug.Log("CharacterJump-->jumpVelocity " + inputEnum + jStatus);
+    //    float velocity = 0f;
+
+    //    if (inputEnum == InputEnum.None) {
+    //        return velocity;
+    //    }
+
+    //    if (inputEnum == InputEnum.Jump) {
+    //        velocity = checkJumpEnableAndJump(normalJump, doubleJump);
+    //    }
+    //    else {
+    //        return velocity;
+    //    };
+
+    //    return velocity;
+    //}    
+
+    //float checkJumpEnableAndJump(float oneJump, float doubleJump) {
+    //    float velocity = 0f;
+    //    if (jStatus == JumpStatus.Grounded) {
+    //        velocity = oneJump;
+    //        jStatus = JumpStatus.Jump;
+
+    //        audioPlay(AudioEnum.Jump);
+    //        playParticle(ParticleEnum.Jump);            
+    //    }
+    //    else if (doubleJumpEnable && isDoubleJump == false) {
+    //        velocity = doubleJump;
+    //        isDoubleJump = true;
+
+    //        audioPlay(AudioEnum.Jump);
+    //        playParticle(ParticleEnum.Jump);
+    //    }
+    //    else {
+    //    }
+    //    return velocity;
+    //}
+
+    //void updateJumpStatus(object[] rMsgData) {
+    //    UpdateEnum inputEnum;
+    //    JumpStatus rStatus;
+
+    //    if (rMsgData.Length >= 2) {
+    //        inputEnum = (UpdateEnum)rMsgData[0];
+    //        if (inputEnum == UpdateEnum.JumpStatus) {
+    //            rStatus = (JumpStatus)rMsgData[1];
+    //            if (jStatus == rStatus) {
+    //                return;
+    //            }
+
+    //            jStatus = rStatus;
+    //            if (jStatus == JumpStatus.Grounded) {
+    //                isDoubleJump = false;
+
+    //                object[] sMsgData = new object[2];
+    //                sMsgData[0] = CameraEnum.GroundedYAxis;
+    //                sMsgData[1] = transform.position;
+    //                CameraManager.instance.setGroundedYAxis(sMsgData);
+    //            }
+    //        }      
+    //    }
+    //    //Debug.Log("CharacterJump-->updateJumpStatus " + jStatus);
+    //}
+
+    //void calculateGravity() {
+    //    //Debug.Log("CharacterJump-->calculateGravity " + inputEnum + inputData);
+    //    if (!useGravity) {
+    //        return;
+    //    }
+    //    float velocity = -gravity * Time.deltaTime;
+
+    //    object[] sMsgData = new object[2];
+    //    sMsgData[0] = MotionEnum.AddYAxis;
+    //    sMsgData[1] = velocity;
+    //    dManager.delegateInvoke(DelegateEnum.Motion, sMsgData);
+    //    //Debug.Log("CharacterJump-->calculateGravity " + velocity);
+    //}
+
+    //void audioPlay(AudioEnum aEnum) {
+    //    object[] sMsgData = new object[2];
+    //    sMsgData[0] = aEnum;
+
+    //    dManager.delegateInvoke(DelegateEnum.Audio, sMsgData);
+    //}
+
+    //void playParticle(ParticleEnum aEnum) {
+    //    object[] sMsgData = new object[2];
+    //    sMsgData[0] = aEnum;
+
+    //    dManager.delegateInvoke(DelegateEnum.Particle, sMsgData);
+
+    //    //Debug.Log("CharacterMotion-->playParticle " + test.ToString());
+    //}
 }
