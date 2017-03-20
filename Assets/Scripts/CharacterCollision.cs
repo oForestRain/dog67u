@@ -5,13 +5,15 @@ using UnityEngine;
 public class CharacterCollision : MonoBehaviour {
 
     private CharacterController controller;
-    private DelegateManager dManager;
+    //private DelegateManager dManager;
+    private CharacterMotion cMotion;
 
     private CollisionFlags curFlags;
 
     void Awake() {
         controller = GetComponent<CharacterController>();
-        dManager = GetComponent<DelegateManager>();
+        //dManager = GetComponent<DelegateManager>();
+        cMotion = GetComponent<CharacterMotion>();
     }
 
     void OnEnable() {
@@ -52,12 +54,13 @@ public class CharacterCollision : MonoBehaviour {
         object[] sMsgData = new object[2];
         curFlags = controller.collisionFlags;
         if (controller.collisionFlags == CollisionFlags.Above) {
-            sMsgData[0] = MotionEnum.ReverseYAxis;
-            sMsgData[1] = 0f;
+            //sMsgData[0] = MotionEnum.ReverseYAxis;
+            //sMsgData[1] = 0f;
+            cMotion.motion(0,MotionEnum.ReverseYAxis);
         }
         else {
             return;
         }
-        dManager.delegateInvoke(DelegateEnum.Motion, sMsgData);
+        //dManager.delegateInvoke(DelegateEnum.Motion, sMsgData);
     }
 }

@@ -17,17 +17,16 @@ public class CameraManager : MonoBehaviour {
     public float screenBuffer = 7.2f;
     public float zoomMin = 7.2f;
 
-    public Vector3 freeArea = new Vector3(1f, 1f, 1f);
-    public Vector3 offsetSize = new Vector3(4f,4f,4f);
+    public Vector3 freeArea = new Vector3(1f, 0.01f, 0.01f);
+    public Vector3 offsetSize = new Vector3(2f,0f,0f);
 
     private Camera mzCamera;
 
-    public Vector3 sceneBorder = new Vector3(50f, 20f, 2f);
+    public Vector3 sceneBorder = new Vector3(58f, 20f, 2f);
     private Vector3 velocity;
     private float zoomSpeed;
     private Vector3 desiredPosition;
     private Vector3 desiredOffsetPosition;
-    private Vector3 deltaOffset;
     private Vector3 positionOffset;
     private float groundedYAxis;
 
@@ -72,6 +71,7 @@ public class CameraManager : MonoBehaviour {
         }
         desiredPosition = target.position;
         calculateFollow();
+
         //Debug.Log("CameraManager-->cameraFollow " + transform.position + desiredPosition);
     }
 
@@ -104,44 +104,27 @@ public class CameraManager : MonoBehaviour {
             //Debug.Log("CameraManager-->calculateFollow z");
         }
 
-        calculateSceneBorder();
-
         //Vector3 desiredLocalPosition = transform.InverseTransformPoint(desiredPosition);
         //Vector3 transformLocalPos = transform.InverseTransformPoint(transform.position);
         //Vector3 desiredToTargetPos = desiredLocalPosition - transformLocalPos;
 
+        Vector3 screenSize = new Vector3(mzCamera.orthographicSize * mzCamera.aspect, mzCamera.orthographicSize, 0);
+        if (desiredOffsetPosition.x > sceneBorder.x - screenSize.x) {
+            desiredOffsetPosition.x = sceneBorder.x - screenSize.x;
+        }
+        else if (desiredOffsetPosition.x < 0) {
+            desiredOffsetPosition.x = 0;
+        }
+        if (desiredOffsetPosition.y > sceneBorder.y - screenSize.y) {
+            desiredOffsetPosition.y = sceneBorder.y - screenSize.y;
+        }
+         else if (desiredOffsetPosition.x < 0) {
+            desiredOffsetPosition.y = 0;
+        }
+
         transform.position = Vector3.SmoothDamp(transform.position, desiredOffsetPosition, ref velocity, dampTime);
     }
-
-    void calculateSceneBorder() {  
-        Vector3 screenSize = new Vector3(mzCamera.orthographicSize * mzCamera.aspect, mzCamera.orthographicSize,0);
-        Vector3 sceneOffset = screenSize;
-        int fixedOffset;
-        if (desiredOffsetPosition.x > sceneBorder.x - screenSize.x - sceneOffset.x) {
-            fixedOffset = (int)(sceneBorder.x - screenSize.x - desiredOffsetPosition.x - sceneOffset.x);
-            desiredOffsetPosition.x += fixedOffset;
-            positionOffset.x += fixedOffset;
-        }
-        else if (desiredOffsetPosition.x < screenSize.x - sceneOffset.x) {
-            fixedOffset = (int)(screenSize.x - desiredOffsetPosition.x - sceneOffset.x);
-            desiredOffsetPosition.x += fixedOffset;
-            positionOffset.x += fixedOffset;
-        }
-
-        if (desiredOffsetPosition.y > sceneBorder.y - screenSize.y - sceneOffset.y) {
-            fixedOffset = (int)(sceneBorder.y - screenSize.y - desiredOffsetPosition.y - sceneOffset.y);
-            desiredOffsetPosition.y += fixedOffset;
-            positionOffset.y += fixedOffset;
-        }
-        else if (desiredOffsetPosition.y < screenSize.y - sceneOffset.y) {
-            fixedOffset = (int)(screenSize.y - desiredOffsetPosition.y - sceneOffset.y);
-            desiredOffsetPosition.y += fixedOffset;
-            positionOffset.y += fixedOffset;
-        }
-        //Debug.Log("CameraManager-->calculateSceneBorder Screen" + screenSize);
-        //Debug.Log("CameraManager-->calculateFollow z" + sceneBorder);
-    }
-
+    
     //void calculateAveragePosition() {
     //    Vector3 averagePos = new Vector3();
     //    int numTarget = 0;
@@ -221,9 +204,32 @@ public class CameraManager : MonoBehaviour {
         float size = desiredPosition.y - groundedYAxis;
 
         size += screenBuffer;
+        
+        Vector3 screenSize = new Vector3(size * mzCamera.aspect, size, 0);
+
+        //Debug.Log("CameraManager-->cameraZoomJump " + desiredOffsetPosition.x + " " + screenSize.x + " "+ (desiredOffsetPosition.x - screenSize.x));
+
+        if (desiredOffsetPosition.x >= sceneBorder.x - screenSize.x) {
+            //Debug.Log("CameraManager-->cameraZoomJump 1 ");
+            size = (sceneBorder.x - desiredOffsetPosition.x )/ mzCamera.aspect;
+        }
+        else if (desiredOffsetPosition.x - screenSize.x <= -zoomMin * mzCamera.aspect) {
+            //Debug.Log("CameraManager-->cameraZoomJump 2 ");
+            size = (desiredOffsetPosition.x + zoomMin * mzCamera.aspect) / mzCamera.aspect;
+        }
+
+        //if (desiredOffsetPosition.y > sceneBorder.y - screenSize.y) {
+        //    //Debug.Log("CameraManager-->cameraZoomJump 3 ");
+        //    size = sceneBorder.y - desiredOffsetPosition.y;
+        //}
+        //else if (desiredOffsetPosition.y - screenSize.y < -zoomMin) {
+        //    //Debug.Log("CameraManager-->cameraZoomJump 4 ");
+        //    size = desiredOffsetPosition.y + zoomMin;
+        //}
+
         size = Mathf.Max(size, zoomMin);
 
         mzCamera.orthographicSize = Mathf.SmoothDamp(mzCamera.orthographicSize, size, ref zoomSpeed, zoomDampTime);
         //Debug.Log("CameraManager-->cameraZoomJump " + mzCamera.orthographicSize);
-    }    
+    }
 }
