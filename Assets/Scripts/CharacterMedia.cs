@@ -12,7 +12,7 @@ public class CharacterMedia : MonoBehaviour {
         //Debug.Log("CharacterMedia-->Awake ");
         //dManager = GetComponent<DelegateManager>();
         anim = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>();
+        //audioSource = GetComponent<AudioSource>();
     }
 
     void OnEnable() {
@@ -64,14 +64,16 @@ public class CharacterMedia : MonoBehaviour {
 
     public void playAudio(AudioEnum inputEnum, object inputData = null) {
         AudioClip currentAc;
-        if (inputEnum == AudioEnum.Jump) {
-            currentAc = SceneMode.instance.getAudioClipByEnum(inputEnum);
+        currentAc = SceneMode.instance.getAudioClipByEnum(inputEnum);
+        //audioSource = this.gameObject.AddComponent<AudioSource>();
+        if (currentAc) {
             if (!audioSource.isPlaying) {
                 audioSource.clip = currentAc;
                 audioSource.Play();
+                //Debug.Log("CharacterMedia-->updateAudio " + audioSource.outputAudioMixerGroup.name);
             }
             //Debug.Log("CharacterMedia-->updateAudio " + inputEnum.ToString());
-        }
+        }        
     }
 
     //void updateAnimation(object[] rMsgData) {

@@ -5,19 +5,15 @@ using UnityEngine;
 public class CharacterMode : MonoBehaviour {
 
     //private CharacterController controller;
+    private CharacterMedia cMeidia;
+    private ParticleTransformManager cParticle;
 
     private CharacterState status;
 
-    public Transform jumpParticle;
-    public Transform rightGroundCheck;
-    [HideInInspector]
-    public float sphereRadius = 0.2f;
-    public LayerMask whatIsGround;
-
-    private bool grounded;
-
     void Awake() {
         //controller = GetComponent<CharacterController>();
+        cMeidia = GetComponent<CharacterMedia>();
+        cParticle = GetComponent<ParticleTransformManager>();
     }
 
     void OnEnable() {
@@ -32,20 +28,38 @@ public class CharacterMode : MonoBehaviour {
     void Start() {
         
     }
-    
+
     // Update is called once per frame
     //void Update() {
-    //    //Debug.Log("Character2DController-->Update");
+    //    //Debug.Log("CharacterMode-->Update");
     //}
 
-    void FixedUpdate() {
-        //Debug.Log("Character2DController-->FixedUpdate");
-    }
+    //void FixedUpdate() {
+    //    //Debug.Log("CharacterMode-->FixedUpdate");
+    //}
 
-    void LateUpdate() {
-    }
-    
-    void Update() {
+    //void LateUpdate() {
+    //}    
+
+    public void PickupItem(ItemPickupEnum type,float value) {
+        //Debug.Log("CharacterMode-->PickupItem");
+        if (ItemPickupEnum.Hp == type) {
+            Debug.Log("CharacterMode-->AddHp");
+            cMeidia.playAudio(AudioEnum.Pickup);
+        }
+        else if (ItemPickupEnum.Coin == type) {
+            cMeidia.playAudio(AudioEnum.Coin);
+            //Debug.Log("CharacterMode-->AddCoins");
+            //cParticle.playParticle(ParticleEnum.Jump);
+        }
+        else if (ItemPickupEnum.Life == type) {
+            cMeidia.playAudio(AudioEnum.Life);
+            //Debug.Log("CharacterMode-->AddLife");
+        }
+        else if (ItemPickupEnum.Key == type) {
+            cMeidia.playAudio(AudioEnum.Key);
+            //Debug.Log("CharacterMode-->AddKey");
+        }
     }
 }
 

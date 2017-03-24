@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Events;
 
 [System.Serializable]
@@ -23,6 +24,7 @@ public class EnumParticle {
 public class EnumAudioClip {
     public AudioEnum aEnum;
     public AudioClip aAudioClip;
+    public AudioMixerGroup outputAudioMixerGroup;
 }
 
 public delegate void CommonDelegate(object[] msgData);

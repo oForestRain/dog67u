@@ -38,7 +38,16 @@ public enum AnimationEnum {
 }
 
 public enum AudioEnum {
+    Coin,
+    Death,
+    GetKey,   
+    HpDown,
+    HpUp,
+    Key,
     Jump,
+    Pause,
+    Pickup,
+    Life,
 }
 
 public enum ParticleEnum {
@@ -72,6 +81,13 @@ public enum MotionEnum {
     ReverseXAxis,
     ReverseYAxis,
     ReverseZAxis,
+}
+
+public enum ItemPickupEnum {
+    Hp,
+    Coin,
+    Life,
+    Key,
 }
 
 [System.Flags]

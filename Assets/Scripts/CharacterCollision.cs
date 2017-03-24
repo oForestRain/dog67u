@@ -51,7 +51,7 @@ public class CharacterCollision : MonoBehaviour {
         if (controller.collisionFlags == curFlags) {
             return;
         }
-        object[] sMsgData = new object[2];
+        //object[] sMsgData = new object[2];
         curFlags = controller.collisionFlags;
         if (controller.collisionFlags == CollisionFlags.Above) {
             //sMsgData[0] = MotionEnum.ReverseYAxis;
