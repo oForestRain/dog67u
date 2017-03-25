@@ -12,7 +12,7 @@ public class CharacterMedia : MonoBehaviour {
         //Debug.Log("CharacterMedia-->Awake ");
         //dManager = GetComponent<DelegateManager>();
         anim = GetComponent<Animator>();
-        //audioSource = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void OnEnable() {
