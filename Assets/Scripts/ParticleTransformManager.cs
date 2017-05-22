@@ -41,9 +41,10 @@ public class ParticleTransformManager : MonoBehaviour {
     }
 
     public void playParticle(ParticleEnum inputEnum) {
-         Transform particle = SceneMode.instance.getParticleByEnum(inputEnum);
+        EnumParticle particle = SceneMode.instance.getParticleByEnum(inputEnum);
+        Transform pTransform = particle.pTransform;
         if (transformMapping.ContainsKey(inputEnum) && particle != null) {
-            Instantiate(particle, transformMapping[inputEnum].position, transform.rotation);
+            Instantiate(pTransform, transformMapping[inputEnum].position, transform.rotation);
         }
     }
 

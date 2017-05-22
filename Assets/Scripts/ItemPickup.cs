@@ -7,16 +7,16 @@ public class ItemPickup : MonoBehaviour {
     public ItemPickupEnum pickupType;
     public float pickupValue = 1f;
 
-    CharacterMedia cMeidia;
-    private ParticleTransformManager cParticle;
+    public ObjectMedia cMeidia;
+    public ParticleTransformManager cParticle;
 
     private GameObject playerGameObject;
 
     void Awake() {
-        cMeidia = GetComponent<CharacterMedia>();
-        cParticle = GetComponent<ParticleTransformManager>();
+        //cMeidia = GetComponent<ObjectMedia>();
+        //cParticle = GetComponent<ParticleTransformManager>();
 
-        playerGameObject = GameObject.FindGameObjectWithTag("Player");
+        //playerGameObject = GameObject.FindGameObjectWithTag(TagEnum.Player.ToString());
     }
 
     void OnEnable() {
@@ -38,15 +38,14 @@ public class ItemPickup : MonoBehaviour {
 	}
 
     void OnTriggerEnter(Collider other) {
-        //Debug.Log("ItemPickup-->OnTriggerEnter");
         CharacterMode playerMode;
-        if (other.tag == "Player") {
-            //Debug.Log("ItemPickup-->OnTriggerEnter" + "Player");
-            playerMode = playerGameObject.GetComponent<CharacterMode>();
-            playerMode.PickupItem(pickupType,pickupValue);
+        if (!ReferenceEquals(other.transform.parent,null) && other.transform.parent.tag == TagEnum.Player.ToString()) {
+            //Debug.Log("ItemPickup-->OnTriggerEnter" + other.transform.parent.tag);
+            playerMode = other.GetComponentInParent<CharacterMode>();
+            playerMode.PickupItem(pickupType, pickupValue);
 
-            //cMeidia.playAudio(AudioEnum.Jump);
-            //cParticle.playParticle(ParticleEnum.Jump);
-        }
+
+            Destroy(gameObject);
+        }       
     }
 }

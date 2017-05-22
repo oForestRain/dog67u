@@ -5,15 +5,15 @@ using UnityEngine;
 public class CharacterMode : MonoBehaviour {
 
     //private CharacterController controller;
-    private CharacterMedia cMeidia;
-    private ParticleTransformManager cParticle;
+    public ObjectMedia cMeidia;
+    public ParticleTransformManager cParticle;
 
     private CharacterState status;
 
     void Awake() {
         //controller = GetComponent<CharacterController>();
-        cMeidia = GetComponent<CharacterMedia>();
-        cParticle = GetComponent<ParticleTransformManager>();
+        //cMeidia = GetComponent<ObjectMedia>();
+        //cParticle = GetComponent<ParticleTransformManager>();
     }
 
     void OnEnable() {

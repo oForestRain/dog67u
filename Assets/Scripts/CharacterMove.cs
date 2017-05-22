@@ -9,13 +9,13 @@ public class CharacterMove : MonoBehaviour {
 
     //private DelegateManager dManager;
 
-    private CharacterMotion cMotion;
+    public CharacterMotion cMotion;
 
     void Awake() {
         //Debug.Log("CharacterMove-->Awake ");
         //dManager = GetComponent<DelegateManager>();
 
-        cMotion = GetComponent<CharacterMotion>();
+        //cMotion = GetComponent<CharacterMotion>();
     }
 
     void OnEnable() {

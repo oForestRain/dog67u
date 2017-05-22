@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CharacterMotion : MonoBehaviour {
 
-    private CharacterController controller;
-    private CharacterMedia cMeidia;
+    public CharacterController controller;
+    public ObjectMedia cMeidia;
     //private DelegateManager dManager;
     //[SerializeField]
     private Vector3 velocity;
@@ -14,8 +14,8 @@ public class CharacterMotion : MonoBehaviour {
     //private JumpStatus jStatus;
 
     void Awake() {
-        controller = GetComponent<CharacterController>();
-        cMeidia = GetComponent<CharacterMedia>();
+        //controller = GetComponent<CharacterController>();
+        //cMeidia = GetComponent<ObjectMedia>();
         //dManager = GetComponent<DelegateManager>();
     }
 

@@ -9,17 +9,19 @@ public class PlayerInput : MonoBehaviour {
     //public MyEventHandler actionHanlder;
     //private DelegateManager dManager;
 
-    private CharacterMove cMove;
-    private CharacterJump cJump;
+    public CharacterMove cMove;
+    public CharacterJump cJump;
 
     void Awake() {
         //dManager = GetComponent<DelegateManager>();
-        cMove = GetComponent<CharacterMove>();
-        cJump = GetComponent<CharacterJump>();
+        //cMove = GetComponent<CharacterMove>();
+        //cJump = GetComponent<CharacterJump>();
     }
 
     void OnEnable() {
         //dManager.registerDelegate(DelegateEnum.Input,null);
+        //cMove = GetComponent<CharacterMove>();
+        //cJump = GetComponent<CharacterJump>();
     }
 
     void Disable() {

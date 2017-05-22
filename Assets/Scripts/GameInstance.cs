@@ -14,7 +14,7 @@ public class GameInstance : MonoBehaviour {
     //}
 
     void Awake() {
-        Debug.Log("GameInstance-->Awake ");
+        //Debug.Log("GameInstance-->Awake ");
         instance = this;
 
         staticDelegate = GetComponent<DelegateManager>();

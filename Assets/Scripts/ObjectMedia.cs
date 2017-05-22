@@ -1,18 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
-public class CharacterMedia : MonoBehaviour {
+public class ObjectMedia : MonoBehaviour {
 
     private Animator anim;
-    private AudioSource audioSource;
+
+    public EnumAudioSource[] enumAudioSource;
+    private Dictionary<AudioEnum, AudioSource> audioSourceMapping;
     //private DelegateManager dManager;
 
     void Awake() {
         //Debug.Log("CharacterMedia-->Awake ");
         //dManager = GetComponent<DelegateManager>();
         anim = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>();
+
+        audioSourceMapping = new Dictionary<AudioEnum, AudioSource>();
     }
 
     void OnEnable() {
@@ -20,6 +24,11 @@ public class CharacterMedia : MonoBehaviour {
         //dManager.addDelegate(DelegateEnum.Animation, updateAnimation);
         //dManager.addDelegate(DelegateEnum.Audio, updateAudio);
         //facingRight = true;
+
+        int len = enumAudioSource.Length;
+        for (int i = 0; i < len; i++) {
+            audioSourceMapping.Add(enumAudioSource[i].aEnum, enumAudioSource[i].aAudioSource);
+        }
     }
 
     void Disable() {
@@ -56,6 +65,10 @@ public class CharacterMedia : MonoBehaviour {
             turnAround();
             //Debug.Log("CharacterMedia-->updateMove " + AnimationEnum.FacingRight);
         }
+        else if (inputEnum == AnimationEnum.Bumped) {
+            boolean = (bool)inputData;
+            anim.SetBool(inputEnum.ToString(), boolean);
+        }
     }
 
     void turnAround() {
@@ -63,17 +76,35 @@ public class CharacterMedia : MonoBehaviour {
     }
 
     public void playAudio(AudioEnum inputEnum, object inputData = null) {
-        AudioClip currentAc;
-        currentAc = SceneMode.instance.getAudioClipByEnum(inputEnum);
+        if (!audioSourceMapping.ContainsKey(inputEnum)) {
+            return;
+        }
+
+        AudioSource audioSource = audioSourceMapping[inputEnum];
+        //AudioClip currentAc = SceneMode.instance.getAudioClipByEnum(inputEnum);
+        //AudioMixerGroup currentAmg = SceneMode.instance.getAudioMixerGroupByEnum(inputEnum);
+
+        EnumAudioClip currentAc = SceneMode.instance.getAudioByEnum(inputEnum);
+
         //audioSource = this.gameObject.AddComponent<AudioSource>();
-        if (currentAc) {
+        //if (currentAc) {
+        //    if (!audioSource.isPlaying) {
+        //        audioSource.clip = currentAc;
+        //        audioSource.outputAudioMixerGroup = currentAmg;
+        //        audioSource.Play();
+        //        //Debug.Log("CharacterMedia-->updateAudio " + audioSource.outputAudioMixerGroup.name);
+        //    }
+        //    //Debug.Log("CharacterMedia-->updateAudio " + inputEnum.ToString());
+        //}
+        if (currentAc!=null) {
             if (!audioSource.isPlaying) {
-                audioSource.clip = currentAc;
+                audioSource.clip = currentAc.aAudioClip;
+                audioSource.outputAudioMixerGroup = currentAc.outputAudioMixerGroup;
                 audioSource.Play();
                 //Debug.Log("CharacterMedia-->updateAudio " + audioSource.outputAudioMixerGroup.name);
             }
             //Debug.Log("CharacterMedia-->updateAudio " + inputEnum.ToString());
-        }        
+        }
     }
 
     //void updateAnimation(object[] rMsgData) {

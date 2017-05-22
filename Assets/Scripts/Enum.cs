@@ -1,6 +1,17 @@
 ﻿//if ((status & MotionStatusEnum.FacingRight) == MotionStatusEnum.FacingRight)
 //status &= ~MotionStatusEnum.FacingRight;
 
+public enum TagEnum {
+    Player,
+    Head,
+    Body,
+    Hand,
+    Foot,
+    Block,
+    Pickup,
+}
+
+
 public enum StaticDelegateEnum {
     Input,
     Update,
@@ -35,6 +46,7 @@ public enum AnimationEnum {
     FacingRight,
     VelocityY,
     Grounded,
+    Bumped,
 }
 
 public enum AudioEnum {
@@ -48,6 +60,9 @@ public enum AudioEnum {
     Pause,
     Pickup,
     Life,
+    Bump,
+    BlockBreak,
+    BMG,
 }
 
 public enum ParticleEnum {
@@ -90,6 +105,13 @@ public enum ItemPickupEnum {
     Key,
 }
 
+public enum RendererEnum {
+    Solid,
+    Breakable,
+    Bounce,
+    Question,
+}
+
 [System.Flags]
 public enum CharacterState {
     Crouch = 1<<0,
@@ -103,4 +125,10 @@ public enum MoveStatus {
 public enum JumpStatus {
     Grounded,
     Jump,
+}
+
+public enum ColliderEnum {
+    Head,
+    Body,
+    Foot,
 }

@@ -14,18 +14,18 @@ public class CharacterJump : MonoBehaviour {
     [HideInInspector]
     public JumpStatus jStatus;
     //private DelegateManager dManager;
-    private CharacterController controller;
-    private CharacterMotion cMotion;
-    private CharacterMedia cMeidia;
-    private ParticleTransformManager cParticle;
+    public CharacterController controller;
+    public CharacterMotion cMotion;
+    public ObjectMedia cMeidia;
+    public ParticleTransformManager cParticle;
     
 
     void Awake() {
         //dManager = GetComponent<DelegateManager>();
-        controller = GetComponent<CharacterController>();
-        cMotion = GetComponent<CharacterMotion>();
-        cMeidia = GetComponent<CharacterMedia>();
-        cParticle = GetComponent<ParticleTransformManager>();
+        //controller = GetComponent<CharacterController>();
+        //cMotion = GetComponent<CharacterMotion>();
+        //cMeidia = GetComponent<ObjectMedia>();
+        //cParticle = GetComponent<ParticleTransformManager>();
     }
 
     void OnEnable() {
@@ -113,6 +113,10 @@ public class CharacterJump : MonoBehaviour {
         }
 
         cMeidia.playAnimation(AnimationEnum.Grounded,controller.isGrounded);
+    }
+
+    public void headBumped() {
+        isDoubleJump = true;
     }
 
     //void calculateJump(object[] rMsgData) {

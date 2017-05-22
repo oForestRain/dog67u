@@ -27,6 +27,18 @@ public class EnumAudioClip {
     public AudioMixerGroup outputAudioMixerGroup;
 }
 
+[System.Serializable]
+public class EnumAudioSource {
+    public AudioEnum aEnum;
+    public AudioSource aAudioSource;
+}
+
+[System.Serializable]
+public class EnumRenderer {
+    public RendererEnum rEnum;
+    public Sprite rSprite;
+}
+
 public delegate void CommonDelegate(object[] msgData);
 //public MyDelegate inputDelegate;
 //pInput.inputDelegate += cMotion.test;
