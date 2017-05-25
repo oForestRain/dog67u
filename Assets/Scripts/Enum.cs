@@ -112,6 +112,18 @@ public enum RendererEnum {
     Question,
 }
 
+public enum InstantiationEnum {
+    Hp,
+    Coin,
+    Life,
+    Key,    
+    BlockSolid,
+    BlockBreakable,
+    BlockBounce,
+    BlockQuestion,
+    Player,
+}
+
 [System.Flags]
 public enum CharacterState {
     Crouch = 1<<0,

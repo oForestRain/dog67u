@@ -10,11 +10,12 @@ public class BlockBump : MonoBehaviour {
     public int amount =1;
 
     public SpriteRenderer sRenderer;
-    public ObjectMedia cMeidia;
-    public ParticleTransformManager cParticle;
-        
-    public bool animate;
- 
+    public ObjectMedia oMeidia;
+    public InstantiationTransformManager iManager;
+    public ObjectMoveOut oMoveOut;
+
+    private bool animating = false;
+
     // Use this for initialization
     void Start () {
 		
@@ -24,7 +25,7 @@ public class BlockBump : MonoBehaviour {
 	void Update () {
         EnumRenderer currentRendererSprite = SceneMode.instance.getRendererByEnum(currentType);
 
-        if (!ReferenceEquals(currentRendererSprite, null)) {
+        if (!ReferenceEquals(currentRendererSprite, null) && !animating) {
             sRenderer.sprite = currentRendererSprite.rSprite;
         }
     }
@@ -32,13 +33,43 @@ public class BlockBump : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         if (other.tag == TagEnum.Head.ToString()) {
             if (!ReferenceEquals(other.transform.parent, null) && other.transform.parent.tag == TagEnum.Player.ToString()){
-                cMeidia.playAnimation(AnimationEnum.Bumped, true);
-                cMeidia.playAudio(AudioEnum.Bump);
+                if (currentType == RendererEnum.Solid) {
+                    oMeidia.playAudio(AudioEnum.Bump);
+                }
+                else if(currentType == RendererEnum.Breakable) {
+                    oMeidia.playAudio(AudioEnum.BlockBreak);
+
+                }
+                else if (currentType == RendererEnum.Bounce) {
+                    oMeidia.playAudio(AudioEnum.Bump);
+                    oMeidia.playAnimation(AnimationEnum.Bumped, true);
+                    if (amount <= 1) {
+                        currentType = nextType;                        
+                    }
+                    else {
+                        amount--;
+                    }
+                }
+                else if (currentType == RendererEnum.Question) {
+                    Transform transform = iManager.instantiate(InstantiationEnum.Hp);
+                    oMoveOut.setTarget(transform);
+                    oMoveOut.defaultAutoMove();
+                    oMeidia.playAudio(AudioEnum.Bump);
+                    oMeidia.playAnimation(AnimationEnum.Bumped, true);
+                    currentType = nextType;
+                }                
             }            
         }
     }
 
+    void bumpedAnimationStart() {
+        animating = true;
+        //Debug.Log("BlockBump-->bumpedAnimationStart " + animating);
+    }
+
     void bumpedAnimationComplete() {
-        cMeidia.playAnimation(AnimationEnum.Bumped, false);
+        oMeidia.playAnimation(AnimationEnum.Bumped, false);
+        animating = false;
+        //Debug.Log("BlockBump-->bumpedAnimationComplete " + animating);
     }
 }

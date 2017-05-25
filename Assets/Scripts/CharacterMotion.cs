@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterMotion : MonoBehaviour {
 
     public CharacterController controller;
-    public ObjectMedia cMeidia;
+    public ObjectMedia oMeidia;
     //private DelegateManager dManager;
     //[SerializeField]
     private Vector3 velocity;
@@ -94,10 +94,10 @@ public class CharacterMotion : MonoBehaviour {
             //bool sFacingRight = velocity > 0 ? true : false;
             if (facingRight ^ (velocity > 0)) {
                 facingRight = !facingRight;
-                cMeidia.playAnimation(AnimationEnum.FacingRight,facingRight);
+                oMeidia.playAnimation(AnimationEnum.FacingRight,facingRight);
             }
         }
-        cMeidia.playAnimation(AnimationEnum.VelocityX, Mathf.Abs(velocity));
+        oMeidia.playAnimation(AnimationEnum.VelocityX, Mathf.Abs(velocity));
     }
 
     void updateJumpStatus() {
@@ -107,8 +107,8 @@ public class CharacterMotion : MonoBehaviour {
             }
             velocity.y = 0f;
         }
-        
-        cMeidia.playAnimation(AnimationEnum.VelocityY,velocity.y);
+
+        oMeidia.playAnimation(AnimationEnum.VelocityY,velocity.y);
     }
 
         //void updateVelocity(object[] rMsgData) {

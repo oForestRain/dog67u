@@ -7,7 +7,7 @@ public class ItemPickup : MonoBehaviour {
     public ItemPickupEnum pickupType;
     public float pickupValue = 1f;
 
-    public ObjectMedia cMeidia;
+    public ObjectMedia oMeidia;
     public ParticleTransformManager cParticle;
 
     private GameObject playerGameObject;
@@ -43,7 +43,6 @@ public class ItemPickup : MonoBehaviour {
             //Debug.Log("ItemPickup-->OnTriggerEnter" + other.transform.parent.tag);
             playerMode = other.GetComponentInParent<CharacterMode>();
             playerMode.PickupItem(pickupType, pickupValue);
-
 
             Destroy(gameObject);
         }       

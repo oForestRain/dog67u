@@ -15,6 +15,12 @@ public class ParticleEnumTransform {
 }
 
 [System.Serializable]
+public class InstantiationEnumTransform {
+    public InstantiationEnum iEnum;
+    public Transform iTransform;
+}
+
+[System.Serializable]
 public class EnumParticle {
     public ParticleEnum pEnum;
     public Transform pTransform;
@@ -37,6 +43,12 @@ public class EnumAudioSource {
 public class EnumRenderer {
     public RendererEnum rEnum;
     public Sprite rSprite;
+}
+
+[System.Serializable]
+public class EnumInstantiation {
+    public InstantiationEnum iEnum;
+    public Transform iTransform;
 }
 
 public delegate void CommonDelegate(object[] msgData);

@@ -10,10 +10,12 @@ public class SceneMode : MonoBehaviour {
     public const int rendererSize = 4;
     public const int audioSize = 13;
     public const int particleSize = 1;
+    public const int instantiationSize = 9;
 
     public RendererMapping rendererMapping;
     public AudioMapping audioMapping;
     public ParticleMapping particleMapping;
+    public InstantiationMapping instantiationMapping;    
 
     void Awake() {
         //Debug.Log("SceneMode-->Awake " + GameInstance.Instance());
@@ -40,5 +42,9 @@ public class SceneMode : MonoBehaviour {
     
     public EnumParticle getParticleByEnum(ParticleEnum pEnum) {
         return particleMapping.getAudioByEnum(pEnum);
+    }
+
+    public EnumInstantiation getInstantiationByEnum(InstantiationEnum iEnum) {
+        return instantiationMapping.getInstantiationByEnum(iEnum);
     }
 }

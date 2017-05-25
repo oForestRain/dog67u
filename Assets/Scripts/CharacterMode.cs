@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterMode : MonoBehaviour {
 
     //private CharacterController controller;
-    public ObjectMedia cMeidia;
+    public ObjectMedia oMeidia;
     public ParticleTransformManager cParticle;
 
     private CharacterState status;
@@ -45,19 +45,19 @@ public class CharacterMode : MonoBehaviour {
         //Debug.Log("CharacterMode-->PickupItem");
         if (ItemPickupEnum.Hp == type) {
             Debug.Log("CharacterMode-->AddHp");
-            cMeidia.playAudio(AudioEnum.Pickup);
+            oMeidia.playAudio(AudioEnum.Pickup);
         }
         else if (ItemPickupEnum.Coin == type) {
-            cMeidia.playAudio(AudioEnum.Coin);
+            oMeidia.playAudio(AudioEnum.Coin);
             //Debug.Log("CharacterMode-->AddCoins");
             //cParticle.playParticle(ParticleEnum.Jump);
         }
         else if (ItemPickupEnum.Life == type) {
-            cMeidia.playAudio(AudioEnum.Life);
+            oMeidia.playAudio(AudioEnum.Life);
             //Debug.Log("CharacterMode-->AddLife");
         }
         else if (ItemPickupEnum.Key == type) {
-            cMeidia.playAudio(AudioEnum.Key);
+            oMeidia.playAudio(AudioEnum.Key);
             //Debug.Log("CharacterMode-->AddKey");
         }
     }

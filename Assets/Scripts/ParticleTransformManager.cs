@@ -5,22 +5,21 @@ using UnityEngine;
 public class ParticleTransformManager : MonoBehaviour {
 
     public ParticleEnumTransform[] particleEnumTransform;
-    private Dictionary<ParticleEnum, Transform> transformMapping;
+    private Dictionary<ParticleEnum, ParticleEnumTransform> transformMapping;
 
     //private DelegateManager dManager;
 
     void Awake() {
         //dManager = GetComponent<DelegateManager>();
-        transformMapping = new Dictionary<ParticleEnum, Transform>();
+        transformMapping = new Dictionary<ParticleEnum, ParticleEnumTransform>();
     }
 
     void OnEnable() {
         //dManager.addDelegate(DelegateEnum.Particle, playParticle);
-        transformMapping = new Dictionary<ParticleEnum, Transform>();
 
         int len = particleEnumTransform.Length;
         for (int i = 0; i < len; i++) {
-            transformMapping.Add(particleEnumTransform[i].pEnum, particleEnumTransform[i].pTransform);
+            transformMapping.Add(particleEnumTransform[i].pEnum, particleEnumTransform[i]);
         }
     }
 
@@ -41,10 +40,11 @@ public class ParticleTransformManager : MonoBehaviour {
     }
 
     public void playParticle(ParticleEnum inputEnum) {
-        EnumParticle particle = SceneMode.instance.getParticleByEnum(inputEnum);
-        Transform pTransform = particle.pTransform;
+        EnumParticle particleObject = SceneMode.instance.getParticleByEnum(inputEnum);
+        Transform particle = particleObject.pTransform;
+        Transform transform = transformMapping[inputEnum].pTransform;
         if (transformMapping.ContainsKey(inputEnum) && particle != null) {
-            Instantiate(pTransform, transformMapping[inputEnum].position, transform.rotation);
+            Instantiate(particle, transform.position, transform.rotation);
         }
     }
 

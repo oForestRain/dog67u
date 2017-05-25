@@ -16,7 +16,7 @@ public class CharacterJump : MonoBehaviour {
     //private DelegateManager dManager;
     public CharacterController controller;
     public CharacterMotion cMotion;
-    public ObjectMedia cMeidia;
+    public ObjectMedia oMeidia;
     public ParticleTransformManager cParticle;
     
 
@@ -91,7 +91,7 @@ public class CharacterJump : MonoBehaviour {
         }
 
         cMotion.motion(velocity, MotionEnum.YAxis);
-        cMeidia.playAudio(AudioEnum.Jump);
+        oMeidia.playAudio(AudioEnum.Jump);
         cParticle.playParticle(ParticleEnum.Jump);
     }
 
@@ -112,7 +112,7 @@ public class CharacterJump : MonoBehaviour {
             GameInstance.staticDelegate.delegateInvoke(DelegateEnum.Camera, sMsgData);
         }
 
-        cMeidia.playAnimation(AnimationEnum.Grounded,controller.isGrounded);
+        oMeidia.playAnimation(AnimationEnum.Grounded,controller.isGrounded);
     }
 
     public void headBumped() {
