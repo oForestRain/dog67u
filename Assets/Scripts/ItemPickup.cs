@@ -37,14 +37,14 @@ public class ItemPickup : MonoBehaviour {
 		
 	}
 
-    void OnTriggerEnter(Collider other) {
+    void OnCollisionEnter(Collision collision) {
         CharacterMode playerMode;
-        if (!ReferenceEquals(other.transform.parent,null) && other.transform.parent.tag == TagEnum.Player.ToString()) {
+        if (!ReferenceEquals(collision.collider.transform.parent, null) && collision.collider.transform.parent.tag == TagEnum.Player.ToString()) {
             //Debug.Log("ItemPickup-->OnTriggerEnter" + other.transform.parent.tag);
-            playerMode = other.GetComponentInParent<CharacterMode>();
+            playerMode = collision.collider.GetComponentInParent<CharacterMode>();
             playerMode.PickupItem(pickupType, pickupValue);
 
-            Destroy(gameObject);
-        }       
+            //Destroy(gameObject);
+        }
     }
 }

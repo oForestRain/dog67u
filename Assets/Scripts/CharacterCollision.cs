@@ -37,18 +37,23 @@ public class CharacterCollision : MonoBehaviour {
         //Debug.Log("CharacterCollision-->FixedUpdate" + controller.collisionFlags + curFlags);
     }
 
-    public void partColliderEnter(Collider other,ColliderEnum part) {
+      public void partCollisionEnter(Collision collision, ColliderEnum part) {
+        //Debug.Log("CharacterCollision-->partCollisionEnter");
         if (part == ColliderEnum.Head) {
-            headColliderEnter(other);
+            headCollisionEnter(collision);
         }
     }
 
-    void headColliderEnter(Collider other) {
-        if (other.tag == TagEnum.Block.ToString()) {           
-            cJump.headBumped();
-            cMotion.motion(0, MotionEnum.ReverseYAxis);
+    void headCollisionEnter(Collision collision) {
+        if (collision.collider.tag == TagEnum.Block.ToString()) {
+            ContactPoint contact = collision.contacts[0];
+            //Debug.Log("CharacterCollision-->OnCollisionEnter" + contact.normal);
+            //Debug.DrawRay(contact.point, contact.normal, Color.red, 500);
+            if (contact.normal.y < 0) {
+                cJump.headBumped();
+                cMotion.motion(0, MotionEnum.ReverseYAxis);
+            }
             //Debug.Log("CharacterCollision-->headColliderEnter");
         }
     }
-
 }

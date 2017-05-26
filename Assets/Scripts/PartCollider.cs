@@ -9,16 +9,16 @@ public class PartCollider : MonoBehaviour {
 
 
     // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void Start() {
 
-    void OnTriggerEnter(Collider other) {
-        handler.partColliderEnter(other,part);
+    }
+
+    // Update is called once per frame
+    void Update() {
+
+    }
+
+    void OnCollisionEnter(Collision collision) {
+        handler.partCollisionEnter(collision, part);
     }
 }
