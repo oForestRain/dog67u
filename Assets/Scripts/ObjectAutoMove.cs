@@ -6,7 +6,6 @@ public class ObjectAutoMove : MonoBehaviour {
 
     public Vector3 speed = Vector3.one;
     public Vector3 moveDirection = Vector3.right;
-    public Rigidbody rb;
 
     private Vector3 velocity;
 
@@ -59,7 +58,7 @@ public class ObjectAutoMove : MonoBehaviour {
         //Debug.Log("ObjectAutoMove-->OnCollisionEnter" + contact.normal);
         //Debug.DrawRay(contact.point, contact.normal, Color.red, 500);
         Vector3 pos = contact.point;
-        if (collision.collider.tag == TagEnum.Block.ToString() || collision.collider.tag == TagEnum.Pickup.ToString()) {
+        if (collision.collider.tag == TagEnum.Block.ToString() || collision.collider.tag == transform.tag) {
             if (contact.normal.x != 0) {
                 //Debug.Log("ObjectAutoMove-->OnCollisionEnter Reverse");
                 directionReverse();
