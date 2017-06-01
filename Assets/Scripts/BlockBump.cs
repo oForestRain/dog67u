@@ -10,9 +10,9 @@ public class BlockBump : MonoBehaviour {
     public int amount =1;
 
     public SpriteRenderer sRenderer;
-    public ObjectMedia oMeidia;
+    public OMedia oMeidia;
     public InstantiationTransformManager iManager;
-    public ObjectMoveOut oMoveOut;
+    public PickupRise pRise;
 
     private bool animating = false;
 
@@ -56,8 +56,8 @@ public class BlockBump : MonoBehaviour {
                     }
                     else if (currentType == RendererEnum.Question) {
                         Transform transform = iManager.instantiate(InstantiationEnum.Hp);
-                        oMoveOut.setTarget(transform);
-                        oMoveOut.defaultAutoMove();
+                        pRise.setTarget(transform);
+                        pRise.defaultAutoMove();
                         oMeidia.playAudio(AudioEnum.Bump);
                         oMeidia.playAnimation(AnimationEnum.Bumped, true);
                         currentType = nextType;

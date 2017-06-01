@@ -89,13 +89,10 @@ public enum InputEnum {
 public enum MotionEnum {
     XAxis,
     YAxis,
-    ZAxis,
     AddXAxis,
     AddYAxis,
-    AddZAxis,
     ReverseXAxis,
     ReverseYAxis,
-    ReverseZAxis,
 }
 
 public enum ItemPickupEnum {

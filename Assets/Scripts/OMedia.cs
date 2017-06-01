@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class ObjectMedia : MonoBehaviour {
+public class OMedia : MonoBehaviour {
 
     private Animator anim;
 
@@ -12,7 +12,7 @@ public class ObjectMedia : MonoBehaviour {
     //private DelegateManager dManager;
 
     void Awake() {
-        //Debug.Log("CharacterMedia-->Awake ");
+        //Debug.Log("OMedia-->Awake ");
         //dManager = GetComponent<DelegateManager>();
         anim = GetComponent<Animator>();
 
@@ -20,7 +20,7 @@ public class ObjectMedia : MonoBehaviour {
     }
 
     void OnEnable() {
-        //Debug.Log("CharacterMedia-->OnEnable ");
+        //Debug.Log("OMedia-->OnEnable ");
         //dManager.addDelegate(DelegateEnum.Animation, updateAnimation);
         //dManager.addDelegate(DelegateEnum.Audio, updateAudio);
         //facingRight = true;
@@ -54,16 +54,16 @@ public class ObjectMedia : MonoBehaviour {
 
             velocity = (float)inputData;
             anim.SetFloat(inputEnum.ToString(), velocity);
-            //Debug.Log("CharacterMedia-->updateAnimation " + inputEnum.ToString() + velocity);
+            //Debug.Log("OMedia-->updateAnimation " + inputEnum.ToString() + velocity);
         }
         else if (inputEnum == AnimationEnum.Grounded) {
             boolean = (bool)inputData;
             anim.SetBool(inputEnum.ToString(), boolean);
-            //Debug.Log("CharacterMedia-->updateAnimation " + inputEnum.ToString() + boolean);
+            //Debug.Log("OMedia-->updateAnimation " + inputEnum.ToString() + boolean);
         }
         else if (inputEnum == AnimationEnum.FacingRight) {
             turnAround();
-            //Debug.Log("CharacterMedia-->updateMove " + AnimationEnum.FacingRight);
+            //Debug.Log("OMedia-->updateMove " + AnimationEnum.FacingRight);
         }
         else if (inputEnum == AnimationEnum.Bumped) {
             boolean = (bool)inputData;
@@ -92,7 +92,7 @@ public class ObjectMedia : MonoBehaviour {
         //        audioSource.clip = currentAc;
         //        audioSource.outputAudioMixerGroup = currentAmg;
         //        audioSource.Play();
-        //        //Debug.Log("CharacterMedia-->updateAudio " + audioSource.outputAudioMixerGroup.name);
+        //        //Debug.Log("OMedia-->updateAudio " + audioSource.outputAudioMixerGroup.name);
         //    }
         //    //Debug.Log("CharacterMedia-->updateAudio " + inputEnum.ToString());
         //}
@@ -101,9 +101,9 @@ public class ObjectMedia : MonoBehaviour {
                 audioSource.clip = currentAc.aAudioClip;
                 audioSource.outputAudioMixerGroup = currentAc.outputAudioMixerGroup;
                 audioSource.Play();
-                //Debug.Log("CharacterMedia-->updateAudio " + audioSource.outputAudioMixerGroup.name);
+                //Debug.Log("OMedia-->updateAudio " + audioSource.outputAudioMixerGroup.name);
             }
-            //Debug.Log("CharacterMedia-->updateAudio " + inputEnum.ToString());
+            //Debug.Log("OMedia-->updateAudio " + inputEnum.ToString());
         }
     }
 

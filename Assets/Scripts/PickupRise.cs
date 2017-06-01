@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectMoveOut : MonoBehaviour {
+public class PickupRise : MonoBehaviour {
 
     public Vector3 speed = Vector3.one;
     public Vector3 moveDirection = Vector3.up;
@@ -33,7 +33,7 @@ public class ObjectMoveOut : MonoBehaviour {
     public void setTarget(Transform tTarget) {
         target = tTarget;
         useGravity(target, false);
-        Debug.Log("ObjectMoveOut-->setTarget" + target);
+        //Debug.Log("PickupRise-->setTarget" + target);
     }
 
     public void defaultAutoMove() {
@@ -49,17 +49,17 @@ public class ObjectMoveOut : MonoBehaviour {
         useGravity(target, true);
     }
 
-    void OnCollisionExit(Collision collision) {
-        //Debug.Log("ObjectMoveOut-->OnCollisionExit" + collision.transform.Equals(target));
-        if (collision.transform.Equals(target)) {
-            stopAutoMove();
-        }
-    }
-
     public void useGravity(Transform tTarget,bool use) {
         rb = target.GetComponent<Rigidbody>();
         if (rb != null) {
             rb.useGravity = use;
+        }
+    }
+
+    void OnCollisionExit(Collision collision) {
+        //Debug.Log("PickupRise-->OnCollisionExit" + collision.transform.Equals(target));
+        if (collision.transform.Equals(target)) {
+            stopAutoMove();
         }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class PartCollider : MonoBehaviour {
 
     public ColliderEnum part;
-    public CharacterCollision handler;
+    public CCollision handler;
 
 
     // Use this for initialization

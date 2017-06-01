@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterMode : MonoBehaviour {
 
     //private CharacterController controller;
-    public ObjectMedia oMeidia;
+    public OMedia oMeidia;
     public ParticleTransformManager cParticle;
 
     private CharacterState status;

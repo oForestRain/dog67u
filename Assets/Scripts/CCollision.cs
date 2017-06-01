@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterCollision : MonoBehaviour {
+public class CCollision : MonoBehaviour {
 
     public CharacterController controller;
     //private DelegateManager dManager;
-    public CharacterMotion cMotion;
-    public CharacterJump cJump;
+    public CMovement cMovement;
+    public CJump cJump;
 
     //private CollisionFlags curFlags;
 
@@ -34,11 +34,11 @@ public class CharacterCollision : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        //Debug.Log("CharacterCollision-->FixedUpdate" + controller.collisionFlags + curFlags);
+        //Debug.Log("CCollision-->FixedUpdate" + controller.collisionFlags + curFlags);
     }
 
-      public void partCollisionEnter(Collision collision, ColliderEnum part) {
-        //Debug.Log("CharacterCollision-->partCollisionEnter");
+    public void partCollisionEnter(Collision collision, ColliderEnum part) {
+        //Debug.Log("CCollision-->partCollisionEnter");
         if (part == ColliderEnum.Head) {
             headCollisionEnter(collision);
         }
@@ -47,13 +47,13 @@ public class CharacterCollision : MonoBehaviour {
     void headCollisionEnter(Collision collision) {
         if (collision.collider.tag == TagEnum.Block.ToString()) {
             ContactPoint contact = collision.contacts[0];
-            //Debug.Log("CharacterCollision-->OnCollisionEnter" + contact.normal);
+            //Debug.Log("CCollision-->OnCollisionEnter" + contact.normal);
             //Debug.DrawRay(contact.point, contact.normal, Color.red, 500);
             if (contact.normal.y < 0) {
                 cJump.headBumped();
-                cMotion.motion(0, MotionEnum.ReverseYAxis);
+                cMovement.movement(0, MotionEnum.ReverseYAxis);
             }
-            //Debug.Log("CharacterCollision-->headColliderEnter");
+            //Debug.Log("CCollision-->headColliderEnter");
         }
     }
 }

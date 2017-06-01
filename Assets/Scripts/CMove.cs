@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterMove : MonoBehaviour {
+public class CMove : MonoBehaviour {
     public Vector3 speed = new Vector3(4f,0f,0f);
 
     private Vector3 velocity;
 
     //private DelegateManager dManager;
 
-    public CharacterMotion cMotion;
+    public CMovement cMovement;
 
     void Awake() {
         //Debug.Log("CharacterMove-->Awake ");
@@ -38,33 +38,26 @@ public class CharacterMove : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        //Debug.Log("CharacterMove-->FixedUpdate"+ moveInput);
+        //Debug.Log("CMove-->FixedUpdate"+ moveInput);
     }
 
     public void inputMove(InputEnum inputEnum, object inputData) {
-        //Debug.Log("CharacterMove-->inputMove" + velocity + inputData);
+        //Debug.Log("CMove-->inputMove" + velocity + inputData);
         if (inputEnum == InputEnum.HorizontalMove) {
             if (velocity.x == 0 && (float)inputData == 0) {
                 return;
             }
             velocity.x = speed.x * (float)inputData;
-            cMotion.motion(velocity.x, MotionEnum.XAxis);
+            cMovement.movement(velocity.x, MotionEnum.XAxis);
         }
-        if (inputEnum == InputEnum.HorizontalMove) {
-            if (velocity.z == 0 && (float)inputData == 0) {
-                return;
-            }
-            velocity.z = speed.z * (float)inputData;
-            cMotion.motion(velocity.z, MotionEnum.ZAxis);
-        }        
     }
 
-    void checkInput(ref float rVelocity,float inputData, MotionEnum mEnum) {
-        if (rVelocity == 0 && inputData == 0) {
-            return;
-        }
-        cMotion.motion(rVelocity, MotionEnum.ZAxis);
-    }
+    //void checkInput(ref float rVelocity,float inputData, MotionEnum mEnum) {
+    //    if (rVelocity == 0 && inputData == 0) {
+    //        return;
+    //    }
+    //    cMovement.movement(rVelocity, MotionEnum.ZAxis);
+    //}
 
     //void calculateMove(object[] rMsgData) {
     //    InputEnum inputEnum;

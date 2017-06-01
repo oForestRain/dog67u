@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterJump : MonoBehaviour {
+public class CJump : MonoBehaviour {
     public float normalJump = 6f;
     public bool doubleJumpEnable = true;
     public float doubleJump = 6f;
@@ -15,8 +15,8 @@ public class CharacterJump : MonoBehaviour {
     public JumpStatus jStatus;
     //private DelegateManager dManager;
     public CharacterController controller;
-    public CharacterMotion cMotion;
-    public ObjectMedia oMeidia;
+    public CMovement cMovement;
+    public OMedia oMeidia;
     public ParticleTransformManager cParticle;
     
 
@@ -50,18 +50,18 @@ public class CharacterJump : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        //Debug.Log("CharacterJump-->FixedUpdate"+ moveInput);
+        //Debug.Log("CJump-->FixedUpdate"+ moveInput);
         calculateGravity();
         updateJumpStatus();
     }
 
     void calculateGravity() {
-        //Debug.Log("CharacterJump-->calculateGravity ");
+        //Debug.Log("CJump-->calculateGravity ");
         if (!useGravity) {
             return;
         }
-        cMotion.motion(-gravity * Time.deltaTime, MotionEnum.AddYAxis);
-        //Debug.Log("CharacterJump-->calculateGravity " + velocity);
+        cMovement.movement(-gravity * Time.deltaTime, MotionEnum.AddYAxis);
+        //Debug.Log("CJump-->calculateGravity " + velocity);
     }
 
     public void inputJump(InputEnum inputEnum, object inputData) {
@@ -90,7 +90,7 @@ public class CharacterJump : MonoBehaviour {
             return;
         }
 
-        cMotion.motion(velocity, MotionEnum.YAxis);
+        cMovement.movement(velocity, MotionEnum.YAxis);
         oMeidia.playAudio(AudioEnum.Jump);
         cParticle.playParticle(ParticleEnum.Jump);
     }

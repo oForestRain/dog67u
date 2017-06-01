@@ -9,8 +9,8 @@ public class PlayerInput : MonoBehaviour {
     //public MyEventHandler actionHanlder;
     //private DelegateManager dManager;
 
-    public CharacterMove cMove;
-    public CharacterJump cJump;
+    public CMove cMove;
+    public CJump cJump;
 
     void Awake() {
         //dManager = GetComponent<DelegateManager>();

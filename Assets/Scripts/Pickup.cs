@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemPickup : MonoBehaviour {
+public class Pickup : MonoBehaviour {
 
     public ItemPickupEnum pickupType;
     public float pickupValue = 1f;
 
-    public ObjectMedia oMeidia;
+    public RMove rbMove;
+    public OMedia oMeidia;
     public ParticleTransformManager cParticle;
 
     private GameObject playerGameObject;
@@ -29,8 +30,8 @@ public class ItemPickup : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
-	}
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -40,7 +41,7 @@ public class ItemPickup : MonoBehaviour {
     void OnCollisionEnter(Collision collision) {
         CharacterMode playerMode;
         if (!ReferenceEquals(collision.collider.transform.parent, null) && collision.collider.transform.parent.tag == TagEnum.Player.ToString()) {
-            //Debug.Log("ItemPickup-->OnTriggerEnter" + other.transform.parent.tag);
+            //Debug.Log("Pickup-->OnTriggerEnter" + other.transform.parent.tag);
             playerMode = collision.collider.GetComponentInParent<CharacterMode>();
             playerMode.PickupItem(pickupType, pickupValue);
 

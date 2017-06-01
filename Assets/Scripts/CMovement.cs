@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterMotion : MonoBehaviour {
+public class CMovement : MonoBehaviour {
 
     public CharacterController controller;
-    public ObjectMedia oMeidia;
+    public OMedia oMeidia;
     //private DelegateManager dManager;
     //[SerializeField]
     private Vector3 velocity;
@@ -43,19 +43,16 @@ public class CharacterMotion : MonoBehaviour {
 	}
 
     void FixedUpdate() {
-        //Debug.Log("CharacterMotion-->FixedUpdate"+ moveInput);
-        updateMotion();
+        //Debug.Log("CMovement-->FixedUpdate"+ moveInput);
+        updateMovement();
     }
 
-    public void motion(float inputData, MotionEnum inputEnum) {
+    public void movement(float inputData, MotionEnum inputEnum) {
         if (inputEnum == MotionEnum.XAxis) {
             velocity.x = inputData;
         }
         else if (inputEnum == MotionEnum.YAxis) {
             velocity.y = inputData;
-        }
-        else if (inputEnum == MotionEnum.ZAxis) {
-            velocity.z = inputData;
         }
         else if (inputEnum == MotionEnum.AddXAxis) {
             velocity.x += inputData;
@@ -63,23 +60,17 @@ public class CharacterMotion : MonoBehaviour {
         else if (inputEnum == MotionEnum.AddYAxis) {
             velocity.y += inputData;
         }
-        else if (inputEnum == MotionEnum.AddZAxis) {
-            velocity.z += inputData;
-        }
         else if (inputEnum == MotionEnum.ReverseXAxis) {
             velocity.x *= -1;
         }
         else if (inputEnum == MotionEnum.ReverseYAxis) {
-            //Debug.Log("CharacterMotion-->updateVelocity" + velocity.y);
+            //Debug.Log("CMovement-->updateVelocity" + velocity.y);
             velocity.y *= -1;
-            //Debug.Log("CharacterMotion-->updateVelocity" + velocity.y);
-        }
-        else if (inputEnum == MotionEnum.ReverseZAxis) {
-            velocity.z *= -1;
+            //Debug.Log("CMovement-->updateVelocity" + velocity.y);
         }
     }
 
-    void updateMotion() {
+    void updateMovement() {
         //calculateGravity();
         controller.Move(velocity * Time.deltaTime);
         updateMoveStatus();
