@@ -35,7 +35,7 @@ public class CJump : MonoBehaviour {
         jStatus = JumpStatus.Jump;
     }
 
-    void Disable() {
+    void OnDisable() {
         //dManager.decreaseDelegate(DelegateEnum.Input, calculateJump);
         //dManager.decreaseDelegate(DelegateEnum.Update, updateJumpStatus);
     }

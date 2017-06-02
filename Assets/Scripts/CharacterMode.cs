@@ -20,7 +20,7 @@ public class CharacterMode : MonoBehaviour {
         status &= ~CharacterState.Crouch;
     }
 
-    void Disable() {
+    void OnDisable() {
 
     }
 
@@ -59,6 +59,18 @@ public class CharacterMode : MonoBehaviour {
         else if (ItemPickupEnum.Key == type) {
             oMeidia.playAudio(AudioEnum.Key);
             //Debug.Log("CharacterMode-->AddKey");
+        }
+    }
+
+    public void Interact(InteractEnum type, float value) {
+        //Debug.Log("CharacterMode-->Interact");
+        if (InteractEnum.Enemy == type) {
+            Debug.Log("CharacterMode-->MinusHp");
+            oMeidia.playAudio(AudioEnum.HpDown);
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"),true);
+        }
+        else if (InteractEnum.Enemy == type) {
+            
         }
     }
 }

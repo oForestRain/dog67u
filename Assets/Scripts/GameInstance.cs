@@ -26,7 +26,7 @@ public class GameInstance : MonoBehaviour {
         //Debug.Log("GameInstance-->OnEnable ");       
     }
 
-    void Disable() {
+    void OnDisable() {
     }    
 
     // Use this for initialization

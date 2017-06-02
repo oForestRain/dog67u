@@ -20,7 +20,7 @@ public class InstantiationMapping : MonoBehaviour {
         }
     }
 
-    void Disable() {
+    void OnDisable() {
         enumInstantiationMapping.Clear();
     }
 

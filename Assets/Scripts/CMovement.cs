@@ -28,7 +28,7 @@ public class CMovement : MonoBehaviour {
         //jStatus = JumpStatus.Jump;
     }
 
-    void Disable() {
+    void OnDisable() {
         //dManager.decreaseDelegate(DelegateEnum.Motion, updateVelocity);
     }
 

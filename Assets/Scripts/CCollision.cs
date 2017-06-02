@@ -21,7 +21,7 @@ public class CCollision : MonoBehaviour {
         //curFlags = CollisionFlags.None;
     }
 
-    void Disable() {
+    void OnDisable() {
     }
 
     // Use this for initialization

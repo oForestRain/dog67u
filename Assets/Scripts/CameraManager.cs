@@ -49,7 +49,7 @@ public class CameraManager : MonoBehaviour {
         GameInstance.staticDelegate.addDelegate(DelegateEnum.Camera, setGroundedYAxis);
     }
 
-    void Disable() {
+    void OnDisable() {
         GameInstance.staticDelegate.decreaseDelegate(DelegateEnum.Camera, setGroundedYAxis);
     }
 

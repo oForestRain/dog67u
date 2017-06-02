@@ -7,7 +7,6 @@ public class PartCollider : MonoBehaviour {
     public ColliderEnum part;
     public CCollision handler;
 
-
     // Use this for initialization
     void Start() {
 

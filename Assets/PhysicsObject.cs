@@ -26,7 +26,7 @@ public class PhysicsObject : MonoBehaviour {
 
     }
 
-    void Disable() {
+    void OnDisable() {
     }
 
     // Use this for initialization

@@ -23,7 +23,7 @@ public class ParticleTransformManager : MonoBehaviour {
         }
     }
 
-    void Disable() {
+    void OnDisable() {
         //dManager.decreaseDelegate(DelegateEnum.Particle, playParticle);
 
         transformMapping.Clear();

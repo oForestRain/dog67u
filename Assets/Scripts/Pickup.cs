@@ -24,7 +24,7 @@ public class Pickup : MonoBehaviour {
 
     }
 
-    void Disable() {
+    void OnDisable() {
         //dManager.decreaseDelegate(DelegateEnum.Motion, updateVelocity);
     }
 
@@ -45,7 +45,7 @@ public class Pickup : MonoBehaviour {
             playerMode = collision.collider.GetComponentInParent<CharacterMode>();
             playerMode.PickupItem(pickupType, pickupValue);
 
-            //Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 }

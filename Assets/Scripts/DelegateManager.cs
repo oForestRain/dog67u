@@ -14,7 +14,7 @@ public class DelegateManager : MonoBehaviour {
     void OnEnable() {
         //Debug.Log("DelegateManager-->OnEnable ");
     }
-    void Disable() {
+    void OnDisable() {
         delegateMapping.Clear();
     }
 

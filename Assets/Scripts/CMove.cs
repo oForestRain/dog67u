@@ -23,7 +23,7 @@ public class CMove : MonoBehaviour {
         velocity = Vector3.zero;
     }
 
-    void Disable() {
+    void OnDisable() {
         //dManager.decreaseDelegate(DelegateEnum.Input, calculateMove);
     }
 

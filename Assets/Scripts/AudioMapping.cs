@@ -28,7 +28,7 @@ public class AudioMapping : MonoBehaviour {
         }
     }
 
-    void Disable() {
+    void OnDisable() {
         enumAudioMapping.Clear();
     }
 
@@ -43,7 +43,7 @@ public class AudioMapping : MonoBehaviour {
     }
 
     public EnumAudioClip getAudioByEnum(AudioEnum aEnum) {
-        //Debug.Log("AudioMapping-->getAudioByEnum " + aEnum);
+        //Debug.Log("AudioMapping-->getAudioByEnum " + aEnum + aEnum.ToString() + enumAudioClip.Length);
         if (!enumAudioMapping.ContainsKey(aEnum)) {
             return null;
         }

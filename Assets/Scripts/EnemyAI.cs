@@ -6,16 +6,18 @@ public class EnemyAI : MonoBehaviour {
 
     public Vector3 speed = Vector3.one;
     public CMovement cMovement;
+    public int eDamage;
+
+    private Transform target;
+    private bool tracking = false;
 
     void Awake() {
     }
 
     void OnEnable() {
-
     }
 
-    void Disable() {
-
+    void OnDisable() {
     }
 
     // Use this for initialization
@@ -25,7 +27,9 @@ public class EnemyAI : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
- 
+        if (tracking) {
+            trackingTo();
+        }
     }
 
     void moveInput(float inputData, MotionEnum inputEnum) {
@@ -35,6 +39,20 @@ public class EnemyAI : MonoBehaviour {
 
     public void startAI() {
         moveInput(speed.x,MotionEnum.XAxis);
+    }
+
+    public void trackingTarget(Transform tTarget) {
+        target = tTarget;
+        tracking = true;
+    }
+
+    void trackingTo() {
+        if (target==null) {
+            tracking = false;
+        }
+        Vector3 distance = target.transform.position - transform.position;
+        moveInput(speed.x * distance.normalized.x, MotionEnum.XAxis);
+        //Debug.Log("EnemyAI-->trackingTo" + direction + target.transform.position.x);
     }
 }
 

@@ -24,7 +24,7 @@ public class PlayerInput : MonoBehaviour {
         //cJump = GetComponent<CharacterJump>();
     }
 
-    void Disable() {
+    void OnDisable() {
         //dManager.removeDelegate(DelegateEnum.Input);
     }
 

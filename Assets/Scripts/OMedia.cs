@@ -31,7 +31,7 @@ public class OMedia : MonoBehaviour {
         }
     }
 
-    void Disable() {
+    void OnDisable() {
         //dManager.decreaseDelegate(DelegateEnum.Animation, updateAnimation);
         //dManager.decreaseDelegate(DelegateEnum.Audio, updateAudio);
     }
@@ -76,34 +76,21 @@ public class OMedia : MonoBehaviour {
     }
 
     public void playAudio(AudioEnum inputEnum, object inputData = null) {
+        //Debug.Log("OMedia-->playAudio " + inputEnum.ToString());
         if (!audioSourceMapping.ContainsKey(inputEnum)) {
             return;
         }
 
         AudioSource audioSource = audioSourceMapping[inputEnum];
-        //AudioClip currentAc = SceneMode.instance.getAudioClipByEnum(inputEnum);
-        //AudioMixerGroup currentAmg = SceneMode.instance.getAudioMixerGroupByEnum(inputEnum);
-
         EnumAudioClip currentAc = SceneMode.instance.getAudioByEnum(inputEnum);
 
-        //audioSource = this.gameObject.AddComponent<AudioSource>();
-        //if (currentAc) {
-        //    if (!audioSource.isPlaying) {
-        //        audioSource.clip = currentAc;
-        //        audioSource.outputAudioMixerGroup = currentAmg;
-        //        audioSource.Play();
-        //        //Debug.Log("OMedia-->updateAudio " + audioSource.outputAudioMixerGroup.name);
-        //    }
-        //    //Debug.Log("CharacterMedia-->updateAudio " + inputEnum.ToString());
-        //}
         if (currentAc!=null) {
             if (!audioSource.isPlaying) {
                 audioSource.clip = currentAc.aAudioClip;
                 audioSource.outputAudioMixerGroup = currentAc.outputAudioMixerGroup;
                 audioSource.Play();
                 //Debug.Log("OMedia-->updateAudio " + audioSource.outputAudioMixerGroup.name);
-            }
-            //Debug.Log("OMedia-->updateAudio " + inputEnum.ToString());
+            }            
         }
     }
 

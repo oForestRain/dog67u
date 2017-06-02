@@ -18,7 +18,7 @@ public class RendererMapping : MonoBehaviour {
         }
     }
 
-    void Disable() {
+    void OnDisable() {
         enumRendererMapping.Clear();
     }
 

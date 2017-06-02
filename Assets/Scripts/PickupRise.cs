@@ -17,7 +17,7 @@ public class PickupRise : MonoBehaviour {
 
     }
 
-    void Disable() {
+    void OnDisable() {
 
     }
 

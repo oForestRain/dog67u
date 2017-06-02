@@ -140,4 +140,9 @@ public enum ColliderEnum {
     Head,
     Body,
     Foot,
+    TrackingVision,
+}
+
+public enum InteractEnum {
+    Enemy,
 }

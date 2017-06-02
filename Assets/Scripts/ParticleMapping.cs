@@ -21,7 +21,7 @@ public class ParticleMapping : MonoBehaviour {
         }
     }
 
-    void Disable() {
+    void OnDisable() {
         enumParticleMapping.Clear();
     }
 

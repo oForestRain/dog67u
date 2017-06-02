@@ -17,7 +17,7 @@ public class RMove : MonoBehaviour {
 
     }
 
-    void Disable() {
+    void OnDisable() {
 
     }
 
