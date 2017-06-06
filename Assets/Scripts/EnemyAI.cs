@@ -49,6 +49,7 @@ public class EnemyAI : MonoBehaviour {
     void trackingTo() {
         if (target==null) {
             tracking = false;
+            return;
         }
         Vector3 distance = target.transform.position - transform.position;
         moveInput(speed.x * distance.normalized.x, MotionEnum.XAxis);

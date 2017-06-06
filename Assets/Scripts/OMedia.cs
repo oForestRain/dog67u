@@ -75,7 +75,7 @@ public class OMedia : MonoBehaviour {
         transform.Rotate(Vector3.up * 180);
     }
 
-    public void playAudio(AudioEnum inputEnum, object inputData = null) {
+    public void playAudio(AudioEnum inputEnum,bool play = true,bool loop = false, object inputData = null ) {
         //Debug.Log("OMedia-->playAudio " + inputEnum.ToString());
         if (!audioSourceMapping.ContainsKey(inputEnum)) {
             return;
@@ -85,12 +85,18 @@ public class OMedia : MonoBehaviour {
         EnumAudioClip currentAc = SceneMode.instance.getAudioByEnum(inputEnum);
 
         if (currentAc!=null) {
-            if (!audioSource.isPlaying) {
-                audioSource.clip = currentAc.aAudioClip;
-                audioSource.outputAudioMixerGroup = currentAc.outputAudioMixerGroup;
-                audioSource.Play();
-                //Debug.Log("OMedia-->updateAudio " + audioSource.outputAudioMixerGroup.name);
-            }            
+            if (audioSource != null) {
+                if (audioSource.isPlaying && !play) {
+                    audioSource.Stop();
+                }                
+                else if (!audioSource.isPlaying && play) {
+                    audioSource.loop = loop;
+                    audioSource.clip = currentAc.aAudioClip;
+                    audioSource.outputAudioMixerGroup = currentAc.outputAudioMixerGroup;
+                    audioSource.Play();
+                    //Debug.Log("OMedia-->updateAudio " + audioSource.outputAudioMixerGroup.name);
+                }
+            }
         }
     }
 

@@ -118,7 +118,7 @@ public enum InstantiationEnum {
     BlockBreakable,
     BlockBounce,
     BlockQuestion,
-    Player,
+    PlayerDog,
 }
 
 [System.Flags]

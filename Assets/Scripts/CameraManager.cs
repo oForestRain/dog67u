@@ -41,16 +41,16 @@ public class CameraManager : MonoBehaviour {
 
     void OnEnable() {
         //Debug.Log("CameraManager-->OnEnable " + GameInstance.staticDelegate);
-        StartCoroutine(yieldForAddDelegate());
+        //StartCoroutine(yieldForAddDelegate());
     }
 
-    IEnumerator yieldForAddDelegate() {
-        yield return GameInstance.staticDelegate != null;
-        GameInstance.staticDelegate.addDelegate(DelegateEnum.Camera, setGroundedYAxis);
-    }
+    //IEnumerator yieldForAddDelegate() {
+    //    yield return GameInstance.staticDelegate != null;
+    //    GameInstance.staticDelegate.addDelegate(DelegateEnum.Camera, setGroundedYAxis);
+    //}
 
     void OnDisable() {
-        GameInstance.staticDelegate.decreaseDelegate(DelegateEnum.Camera, setGroundedYAxis);
+        //GameInstance.staticDelegate.decreaseDelegate(DelegateEnum.Camera, setGroundedYAxis);
     }
 
     // Use this for initialization
@@ -66,7 +66,7 @@ public class CameraManager : MonoBehaviour {
     }
 
     void cameraFollow() {
-        if (!follow) {
+        if (!follow||target==null) {
             return;
         }
         desiredPosition = target.position;

@@ -8,6 +8,8 @@ public class CharacterMode : MonoBehaviour {
     public OMedia oMeidia;
     public ParticleTransformManager cParticle;
 
+    public int Hp = 3;
+
     private CharacterState status;
 
     void Awake() {

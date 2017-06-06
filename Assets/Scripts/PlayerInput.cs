@@ -29,7 +29,7 @@ public class PlayerInput : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start() {        
+    void Start() {
     }
 
     // Update is called once per frame
@@ -47,7 +47,7 @@ public class PlayerInput : MonoBehaviour {
     void horizontalInput() {
         InputEnum inputEnum;
 
-        float hInput = Input.GetAxis("Horizontal"); 
+        float hInput = Input.GetAxis("Horizontal");
 
         //inputEnum = Input.GetButton("Fire1") ? InputEnum.Run : InputEnum.Walk;
         inputEnum = InputEnum.HorizontalMove;
@@ -68,10 +68,10 @@ public class PlayerInput : MonoBehaviour {
         InputEnum inputEnum = InputEnum.Jump;
 
         if (Input.GetButtonDown("Jump")) {
-            cJump.inputJump(inputEnum,true);
+            cJump.inputJump(inputEnum, true);
         }
-        else if(Input.GetButtonUp("Jump")) {
-            cJump.inputJump(inputEnum,false);
+        else if (Input.GetButtonUp("Jump")) {
+            cJump.inputJump(inputEnum, false);
         }
         else {
             return;
@@ -85,6 +85,11 @@ public class PlayerInput : MonoBehaviour {
             return;
         }
         //inputEnum = InputEnum.Action;
+    }
+
+    public void setTarget(Transform target) {
+        cMove = target.GetComponent<CMove>();
+        cJump = target.GetComponent<CJump>();
     }
 
     //void horizontalInput() {
@@ -133,7 +138,7 @@ public class PlayerInput : MonoBehaviour {
 
     //    object[] sMsgData = new object[1];
     //    sMsgData[0] = inputEnum;
-         
+
     //    dManager.delegateInvoke(DelegateEnum.Input,sMsgData);
     //}
 
